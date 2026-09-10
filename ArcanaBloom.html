@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>曇心之境 — 薰衣草苗圃的深夜占卜舖</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- ============================================================
+     導覽
+     ============================================================ -->
+<nav class="nav">
+  <div class="wrap">
+    <span class="brand">Arcana&nbsp;Bloom</span>
+    <ul>
+      <li><a href="#story">店家故事</a></li>
+      <li><a href="#staff">店員</a></li>
+      <li><a href="#notice">須知</a></li>
+      <li><a href="#tarot">抽牌</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ============================================================
+     主視覺
+     ============================================================ -->
+<header class="hero">
+  <div class="hero-photo">
+    <img src="images/home.jpg" alt="曇心之境店內：石牆垂著藤蔓，一名戴著月牙寬帽的小魔女站在藍色的光裡，深處是一道透著光的門"
+         fetchpriority="high" decoding="async">
+  </div>
+  <div class="hero-veil" aria-hidden="true"></div>
+
+  <div class="hero-sign">
+    <h1>曇心之境</h1>
+  </div>
+
+  <div class="hero-plaque">
+    <div class="wrap">
+      <div>
+        <p class="said">心上有雲的時候，人是看不見自己的。</p>
+        <p class="when"><span>薰衣草苗圃 ○區 ○○號房</span><span>週五、週六 21:00 起，燈熄為止</span></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     一、店家故事　內容來自 data/story.txt
+     ============================================================ -->
+<section class="section" id="story">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="sec-title">店家故事</h2>
+    </div>
+
+    <div class="story">
+      <div id="story-body">
+        <p class="loading">載入中…</p>
+      </div>
+
+      <aside class="plaque" id="story-plaque" hidden>
+        <dl id="story-plaque-list"></dl>
+        <p class="note" id="story-note" hidden></p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     二、店員介紹　內容來自 data/members/
+     ============================================================ -->
+<section class="section" id="staff">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="sec-title">店員介紹</h2>
+    </div>
+
+    <div class="roster" id="roster">
+      <p class="loading">載入中…</p>
+
+      <div class="roster-body" hidden>
+        <div class="figure" id="m-figure">
+          <span class="ph">角色立繪</span>
+        </div>
+
+        <div class="bio">
+          <h3 id="m-zh">—<span class="en" id="m-en"></span></h3>
+          <p class="role" id="m-role"></p>
+          <div class="div"></div>
+          <div class="text" id="m-text"></div>
+          <p class="quote" id="m-quote" hidden></p>
+        </div>
+      </div>
+
+      <div class="thumbs" id="m-thumbs" role="tablist" aria-label="店員" hidden></div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+<!-- ============================================================
+     三、占卜須知　內容來自 data/notice.txt
+     ============================================================ -->
+<section class="section" id="notice">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="sec-title">占卜須知</h2>
+    </div>
+
+    <div class="notice">
+      <ul id="notice-list">
+        <li><div><strong class="loading">載入中…</strong></div></li>
+      </ul>
+      <p class="disclaimer" id="notice-foot" hidden></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     四、線上抽牌　牌面與牌義來自 data/cards/
+     ============================================================ -->
+<section class="section" id="tarot">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="sec-title">線上抽牌</h2>
+    </div>
+
+    <div class="reading">
+      <div class="stage">
+        <div class="card" id="card" role="button" tabindex="0" aria-label="塔羅牌，點一下抽牌">
+          <div class="face back"><div class="mark">✦</div></div>
+          <div class="face front">
+            <div class="num" id="c-num">—</div>
+            <div class="glyph art"><span id="c-glyph">✦</span></div>
+            <div class="name" id="c-name">—</div>
+            <div class="caption" id="c-caption"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reading-side">
+        <!-- 抽第一張之前：說明與按鈕。抽完就退場，之後直接點牌面重抽 -->
+        <div class="before" id="draw-before">
+          <p class="hint">深呼吸，想著你真正想問的那件事，再點下去。</p>
+          <button class="draw-btn" id="draw" disabled>翻開這張牌</button>
+        </div>
+
+        <div class="result" id="result" aria-live="polite">
+          <p class="title"><span id="r-name"></span><span class="pos" id="r-pos" hidden></span></p>
+          <p class="keys" id="r-keys"></p>
+          <p class="scene" id="r-scene"></p>
+          <p class="voice" id="r-voice"></p>
+          <p class="again">想換一張，再點一次牌面。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     頁尾
+     ============================================================ -->
+<footer class="foot">
+  <div class="wrap">
+    <p>曇心之境　Arcana Bloom</p>
+    <p>薰衣草苗圃 ○區 ○○號房　　週五、週六 21:00 起</p>
+    <p>FINAL FANTASY XIV © SQUARE ENIX CO., LTD. 本站為同人創作，非官方內容。</p>
+  </div>
+</footer>
+
+<!-- ============================================================
+     程式：順序不能亂
+       1. config  設定，要第一個
+       2. loader  共用工具
+       3. data/   內容（★ 平常要改的就是這四個檔）
+       4. 各區塊
+       5. main    最後執行
+     ============================================================ -->
+<script src="js/config.js"></script>
+<script src="js/loader.js"></script>
+
+<script src="data/story.js"></script>
+<script src="data/notice.js"></script>
+<script src="data/members.js"></script>
+<script src="data/cards.js"></script>
+
+<script src="js/story.js"></script>
+<script src="js/notice.js"></script>
+<script src="js/members.js"></script>
+<script src="js/cards.js"></script>
+<script src="js/tarot.js"></script>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>

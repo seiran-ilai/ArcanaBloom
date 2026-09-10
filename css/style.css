@@ -1,0 +1,558 @@
+:root{
+  --ink:#060B16;
+  --night:#0C1428;
+  --deep:#16274C;
+  --line:rgba(150,180,225,.16);
+  --line-strong:rgba(160,190,235,.34);
+  --mist:#DDE5F3;
+  --muted:#8FA1C2;
+  --gold:#C8A96A;
+  --glow:rgba(120,165,235,.35);
+  --serif:"Noto Serif TC",'Songti TC','PMingLiU',serif;
+  --latin:"Cormorant Garamond",'Noto Serif TC',serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--ink);
+  color:var(--mist);
+  font-family:var(--serif);
+  font-weight:300;
+  line-height:1.9;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* 全站底層的星塵 */
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(1100px 700px at 78% -8%, #17264a 0%, transparent 62%),
+    radial-gradient(900px 620px at 10% 108%, #101c3a 0%, transparent 60%),
+    var(--ink);
+}
+body::after{
+  content:"";
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background-image:
+    radial-gradient(1.4px 1.4px at 12% 22%, rgba(220,232,255,.55) 50%, transparent 51%),
+    radial-gradient(1px 1px at 32% 68%, rgba(200,220,255,.42) 50%, transparent 51%),
+    radial-gradient(1.6px 1.6px at 58% 14%, rgba(230,240,255,.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 74% 52%, rgba(200,220,255,.4) 50%, transparent 51%),
+    radial-gradient(1.2px 1.2px at 88% 82%, rgba(220,232,255,.45) 50%, transparent 51%),
+    radial-gradient(1px 1px at 46% 92%, rgba(200,220,255,.35) 50%, transparent 51%);
+}
+
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+
+.wrap{width:min(100% - 2.6rem, 68rem);margin-inline:auto}
+
+/* ---------- 標題系統 ----------
+   原本每一節都是「英文大標＋中文小標」，四節同一個模子，
+   而且那些英文是為了排版生出來的，店裡並不存在。改成只留中文。
+   ------------------------------------------------------------ */
+.sec-title{
+  font-family:var(--serif);
+  font-size:clamp(1.45rem,2.8vw,1.95rem);
+  font-weight:400;
+  line-height:1.35;
+  color:#EDF2FD;
+}
+
+.rule{
+  border:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--line-strong) 22%,var(--line-strong) 78%,transparent);
+  margin:0;
+}
+
+/* ---------- 導覽 ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:rgba(6,11,22,.72);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{
+  display:flex;align-items:center;
+  gap:1rem;padding:.85rem 0;
+}
+.brand{font-family:var(--latin);font-size:1.05rem;letter-spacing:.14em;white-space:nowrap}
+.nav ul{display:flex;gap:1.6rem;list-style:none;font-size:.86rem;color:var(--muted)}
+.nav li{white-space:nowrap}      /* 沒有這行，中文會一個字一個字斷行 */
+@media(max-width:34rem){
+  .nav .wrap{gap:.7rem;padding:.7rem 0}
+  .brand{font-size:.86rem;letter-spacing:.1em}
+  .nav ul{gap:1rem;font-size:.8rem}
+}
+.nav a:hover{color:var(--mist)}
+/* ============================================================
+   主視覺：店內實景
+   ------------------------------------------------------------
+   照片是這一頁的主角，字讓開照片的重點。
+   文字只落在量過的暗處：
+     ．左緣 x0–12%  亮度 64–75，上到下都暗 → 直排招牌
+     ．底部告示板自帶暗底
+   中央 x50–62% 亮度 126（發光的門）是照片的重點，不壓任何東西。
+   ============================================================ */
+.hero{
+  --nav-h:3.6rem;
+  position:relative;
+  min-height:clamp(28rem, 86svh, 52rem);
+  overflow:hidden;
+  isolation:isolate;
+}
+
+/* 照片鋪滿，焦點對準站在左三分之一的小魔女 */
+.hero-photo{position:absolute;inset:0;z-index:0}
+.hero-photo img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:36% 54%;
+  display:block;
+}
+
+/* 只在左緣與底部加暗，中間的人和門完全不碰 */
+.hero-veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(90deg, rgba(6,11,22,.78) 0%, rgba(6,11,22,.34) 16%, transparent 34%),
+    linear-gradient(0deg,  rgba(6,11,22,.72) 0%, transparent 26%);
+}
+
+/* ---------- 左緣：直排招牌 ---------- */
+.hero-sign{
+  position:absolute;z-index:2;
+  left:clamp(1.4rem,4vw,3.4rem);
+  top:clamp(2.4rem,9vh,6rem);
+}
+.hero-sign h1{
+  writing-mode:vertical-rl;
+  font-family:var(--serif);
+  font-weight:400;
+  font-size:clamp(2.1rem,5.4vw,3.6rem);
+  line-height:1;
+  letter-spacing:.2em;          /* 直排時是字與字的間距，招牌就是這樣排的 */
+  color:#F2F6FF;
+  padding-left:1.1rem;
+  border-left:1px solid var(--line-strong);
+  text-shadow:0 2px 22px rgba(6,11,22,.9);
+}
+
+/* ---------- 底部：營業告示板 ---------- */
+.hero-plaque{
+  position:absolute;z-index:2;
+  left:0;right:0;bottom:0;
+  border-top:1px solid var(--line-strong);
+  background:rgba(6,11,22,.6);
+  backdrop-filter:blur(10px);
+}
+.hero-plaque .wrap{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1.2rem 2rem;flex-wrap:wrap;
+  padding:1.15rem 0 1.2rem;
+}
+.hero-plaque .said{
+  font-size:clamp(.92rem,1.9vw,1.05rem);
+  color:#EAF0FC;
+  line-height:1.7;
+  max-width:34em;
+}
+.hero-plaque .when span + span{margin-left:1.5rem}
+.hero-plaque .when{
+  margin-top:.42rem;
+  font-size:.82rem;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+
+/* 手機直式：照片會被裁得很窄，把焦點再往人身上靠 */
+@media (max-width:34rem){
+  .hero-photo img{object-position:33% 56%}
+  .hero-plaque .wrap{flex-direction:column;align-items:flex-start}
+  .hero-plaque .when span{display:block}
+  .hero-plaque .when span + span{margin-left:0}
+}
+
+/* 進場：整頁只有這一次，房間慢慢亮起來 */
+@media (prefers-reduced-motion:no-preference){
+  .hero-photo img{animation:settle 1500ms cubic-bezier(.22,.62,.28,1) both}
+  .hero-sign    {animation:surface 900ms 500ms cubic-bezier(.22,.62,.28,1) both}
+  .hero-plaque  {animation:surface 900ms 760ms cubic-bezier(.22,.62,.28,1) both}
+}
+@keyframes settle {from{opacity:0;transform:scale(1.05)} to{opacity:1;transform:none}}
+@keyframes surface{from{opacity:0} to{opacity:1}}
+
+/* ---------- 區塊通用 ----------
+   間距用來表達內容的分組，不是每一節都一樣：
+     故事 ＋ 店員   ＝ 這家店是誰      → 兩節靠得近
+     ────────────  唯一一條分隔線
+     須知 ＋ 抽牌   ＝ 你來這裡會怎樣  → 兩節靠得近
+   ------------------------------------------------------------ */
+.section{padding:clamp(4rem,8vw,6rem) 0}
+
+#story {padding-block:clamp(4.5rem,9vw,7rem)    clamp(2.5rem,5vw,3.5rem)}
+#staff {padding-block:clamp(2.5rem,5vw,3.5rem)  clamp(5.5rem,12vw,9rem)}
+#notice{padding-block:clamp(4rem,8vw,6rem)      clamp(2.5rem,5vw,3.5rem)}
+#tarot {padding-block:clamp(2.5rem,5vw,3.5rem)  clamp(5rem,10vw,7.5rem)}
+.section-head{margin-bottom:3rem}
+
+/* ---------- 一、店家故事 ---------- */
+.story{display:grid;grid-template-columns:1fr;gap:3rem}
+@media(min-width:52rem){
+  .story{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:4.5rem;align-items:start}
+}
+.story p{margin-bottom:1.5rem;max-width:38em}
+.story p:last-child{margin-bottom:0}
+.story .lead{
+  font-size:1.12rem;
+  color:#EEF3FF;
+}
+.story .drop::first-letter{
+  font-family:var(--latin);
+  font-size:3.1rem;float:left;line-height:.9;
+  padding:.15rem .5rem 0 0;color:var(--gold);
+}
+.plaque{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:1.6rem 0;
+}
+.plaque dl{display:grid;grid-template-columns:5.5rem 1fr;gap:.7rem 1.2rem;font-size:.92rem}
+.plaque dt{color:var(--muted)}
+.plaque dd{color:var(--mist)}
+.plaque .note{margin-top:1.4rem;font-size:.82rem;color:var(--muted);line-height:1.8}
+
+/* ---------- 二、店員 ---------- */
+.roster{
+  border:1px solid var(--line-strong);
+  background:linear-gradient(180deg,rgba(22,39,76,.36),rgba(12,20,40,.2));
+  padding:clamp(1rem,2.4vw,1.7rem);
+}
+
+.roster-body{
+  display:grid;grid-template-columns:1fr;gap:1.8rem;
+  touch-action:pan-y;                 /* 直向捲動照常，橫向留給滑動切換 */
+  cursor:grab;
+}
+.roster-body.dragging{cursor:grabbing;user-select:none}
+.roster-body.dragging img{pointer-events:none}
+
+/* 只有內容位移，外框不動 */
+.roster-body .fig-inner,
+.roster-body .bio{will-change:transform,opacity}
+.roster-body.anim .fig-inner,
+.roster-body.anim .bio{
+  transition:transform var(--dur,360ms) cubic-bezier(.22,.62,.28,1),
+             opacity   var(--dur,360ms) ease;
+}
+.roster-body.dragging .fig-inner,
+.roster-body.dragging .bio{transition:none}
+@media(min-width:52rem){
+  .roster-body{
+    grid-template-columns:minmax(0,1fr) minmax(0,1.14fr);
+    gap:clamp(1.8rem,3.6vw,3.2rem);
+  }
+}
+
+/* 左：人物大圖 */
+.figure{
+  position:relative;overflow:hidden;
+  aspect-ratio:3/4;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#101C38,#09101F);
+}
+.fig-inner{
+  position:absolute;inset:0;
+  display:grid;place-items:center;
+}
+.figure img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.figure .ph{color:var(--muted);font-size:.82rem}
+.figure::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(78% 62% at 50% 26%, transparent 42%, rgba(6,11,22,.5));
+}
+
+/* 右：文字 */
+.bio{align-self:center}
+.bio h3{
+  font-size:clamp(1.75rem,4.2vw,2.5rem);
+  font-weight:400;line-height:1.25;
+}
+.bio .en{
+  display:block;font-family:var(--latin);
+  font-size:.92rem;letter-spacing:.16em;color:var(--muted);
+  margin-top:.4rem;
+}
+.bio .role{color:var(--gold);font-size:.9rem;margin-top:.7rem}
+.bio .div{border-top:1px solid var(--line-strong);margin:1.3rem 0 1.5rem}
+.bio .text{font-size:.98rem;line-height:2.05;max-width:34em}
+.bio .quote{
+  margin-top:1.4rem;border-left:1px solid var(--gold);
+  padding-left:1rem;color:#E7EDFA;font-size:.94rem;line-height:1.9;
+}
+/* 下：頭像列 */
+.thumbs{
+  margin-top:clamp(1rem,2.2vw,1.6rem);
+  display:grid;grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:clamp(.35rem,1.1vw,.8rem);
+}
+.thumb{
+  position:relative;overflow:hidden;
+  aspect-ratio:3/4;padding:0;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#101C38,#09101F);
+  color:var(--muted);
+  font-family:var(--serif);font-weight:300;
+  font-size:clamp(.8rem,2.2vw,1.05rem);
+  display:grid;place-items:center;
+  cursor:pointer;opacity:.5;
+  transition:opacity .35s ease,border-color .35s ease;
+}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+.thumb:hover{opacity:.85}
+.thumb[aria-selected="true"]{opacity:1;border-color:var(--gold);color:var(--mist)}
+.thumb .bar{
+  position:absolute;left:0;bottom:0;height:2px;width:0;
+  background:var(--gold);
+}
+
+/* ---------- 三、占卜須知 ---------- */
+.notice{
+  border:1px solid var(--line);
+  padding:clamp(1.8rem,4vw,3rem);
+  background:rgba(12,20,40,.4);
+}
+
+/* 六條各自獨立、都很短，排成兩欄剛好把版面填滿，
+   單欄時右邊會空掉一大片，看起來像沒對齊 */
+.notice ul{list-style:none;display:grid;gap:1.5rem}
+@media(min-width:52rem){
+  .notice ul{grid-template-columns:1fr 1fr;gap:1.9rem clamp(2rem,4vw,3.4rem)}
+}
+.notice li{
+  display:grid;grid-template-columns:1.4rem 1fr;gap:.6rem;
+  align-items:start;
+}
+.notice li::before{
+  content:"✦";color:var(--gold);font-size:.78rem;line-height:2.3;
+}
+.notice strong{font-weight:500;color:#F0F4FF;display:block}
+.notice p{color:var(--muted);font-size:.92rem;line-height:1.85;margin-top:.2rem}
+/* 這裡原本也叫 .foot，會被頁尾的 .foot 套上置中與 grid。改名避開撞名 */
+.notice .disclaimer{
+  margin-top:2.2rem;padding-top:1.5rem;
+  border-top:1px solid var(--line);
+  font-size:.85rem;color:var(--muted);line-height:1.9;
+}
+
+/* ---------- 四、抽塔羅 ---------- */
+.reading{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:clamp(1.8rem,4.5vw,4rem);
+  align-items:center;
+}
+@media(min-width:48rem){
+  .reading{grid-template-columns:auto minmax(0,1fr)}
+}
+
+/* 牌：不再用 min-height 撐開，高度就是牌的高度 */
+.stage{
+  display:grid;place-items:center;
+  perspective:1400px;
+}
+
+.card{
+  width:min(62vw,19rem);aspect-ratio:5/8;
+  position:relative;
+  transform-style:preserve-3d;
+  transition:transform .85s cubic-bezier(.4,.05,.2,1);
+  cursor:pointer;
+}
+.card.flipped{transform:rotateY(180deg)}
+.card .face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  border:1px solid var(--line-strong);
+  display:grid;
+}
+
+/* 牌背 */
+.card .back{
+  background:
+    radial-gradient(circle at 50% 50%, rgba(120,165,235,.16), transparent 62%),
+    repeating-linear-gradient(45deg,rgba(150,185,235,.06) 0 1px,transparent 1px 9px),
+    linear-gradient(170deg,#132244,#0A1224);
+  place-items:center;
+  box-shadow:0 0 40px rgba(60,110,190,.18);
+}
+.card .back .mark{
+  position:relative;
+  width:64%;aspect-ratio:1;
+  border:1px solid var(--line-strong);
+  border-radius:50%;
+  display:grid;place-items:center;
+  color:var(--gold);font-size:1.5rem;
+}
+.card .back .mark::after{
+  content:"";position:absolute;
+  top:50%;left:50%;
+  width:74%;aspect-ratio:1;
+  border:1px solid var(--line);
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+
+/* 牌面 */
+.card .front{
+  transform:rotateY(180deg);
+  background:linear-gradient(175deg,#1A2C55,#0B1732);
+  grid-template-rows:auto 1fr auto;
+  padding:1.1rem .9rem;
+  text-align:center;
+  box-shadow:0 0 60px rgba(90,140,220,.22);
+}
+.card .front .num,
+.card .front .name{
+  font-family:var(--latin);color:var(--muted);
+  font-size:.82rem;
+}
+.card .front .name{color:var(--mist);font-size:.95rem}
+.card .front .glyph{
+  display:grid;place-items:center;
+  font-variant-emoji:text;                    /* 同上，雙保險 */
+  font-family:var(--latin),'Segoe UI Symbol',serif;
+  font-size:clamp(3rem,11vw,4.4rem);
+  color:var(--gold);
+  text-shadow:0 0 26px rgba(200,169,106,.4);
+}
+/* 逆位只翻圖案，牌名與編號保持可讀 */
+.card .front .art{transition:transform .4s ease}
+.card.reversed .front .art{transform:rotate(180deg)}
+
+.result{
+  opacity:0;transition:opacity .6s ease .2s;
+}
+.result.on{opacity:1}
+.result .title{
+  font-size:1.35rem;
+}
+.result .pos{
+  display:inline-block;margin-left:.7rem;
+  font-size:.74rem;letter-spacing:.06em;
+  padding:.18rem .7rem;
+  border:1px solid var(--line-strong);color:var(--muted);
+  vertical-align:middle;
+}
+.result .pos.rev{color:var(--gold);border-color:rgba(200,169,106,.5)}
+.result .keys{
+  margin-top:.9rem;color:var(--muted);
+  font-size:.9rem;
+}
+.result .scene{
+  margin-top:1.4rem;color:var(--muted);
+  font-size:.92rem;line-height:1.95;
+}
+.result .voice{
+  margin-top:1rem;font-size:1.05rem;line-height:2;color:#EEF3FF;
+}
+.reading-side .before{max-width:26em}
+.hint{color:var(--muted);font-size:.92rem;line-height:1.9}
+
+/* 抽完之後才出現的一行提示，取代原本的「再抽一張」按鈕 */
+.result .again{
+  margin-top:1.6rem;
+  font-size:.82rem;color:var(--muted);
+  padding-top:1rem;
+  border-top:1px solid var(--line);
+}
+
+.draw-btn{
+  margin-top:1.6rem;
+  font-family:var(--serif);font-weight:300;
+  background:rgba(22,39,76,.4);
+  border:1px solid var(--line-strong);
+  color:var(--mist);
+  padding:.8rem 2.1rem;
+  font-size:.94rem;letter-spacing:.04em;
+  cursor:pointer;
+  transition:background .35s ease,border-color .35s ease;
+}
+.draw-btn:hover{background:rgba(30,52,100,.62);border-color:var(--gold)}
+.draw-btn:disabled{opacity:.4;cursor:default}
+
+
+/* ---------- 頁尾 ---------- */
+.foot{
+  border-top:1px solid var(--line);
+  padding:3rem 0 4rem;
+  font-size:.84rem;color:var(--muted);
+  display:grid;gap:.6rem;text-align:center;letter-spacing:.04em;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  html{scroll-behavior:auto}
+}
+
+/* ============================================================
+   以下為拆檔後新增：資料載入狀態、卡牌圖片
+   ============================================================ */
+
+/* ---------- 載入中／載入失敗 ---------- */
+.loading{
+  color:var(--muted);
+  font-size:.88rem;
+  padding:1.2rem 0;
+}
+.load-error{
+  border:1px solid rgba(200,120,120,.4);
+  background:rgba(60,20,28,.28);
+  color:#F3DDDD;
+  padding:1.1rem 1.3rem;
+  font-size:.88rem;line-height:1.9;
+}
+.load-error code{
+  font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;
+  font-size:.85em;color:var(--gold);
+}
+[hidden]{display:none!important}
+
+/* ---------- 店家故事：由 data/story.txt 產生 ---------- */
+.story .plaque dl:empty{display:none}
+
+/* ---------- 卡牌正面放自訂圖 ---------- */
+.card .front.has-art{
+  padding:0;
+  grid-template-rows:1fr;
+}
+.card .front .art-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform .4s ease;
+}
+.card.reversed .front .art-img{transform:rotate(180deg)}
+.card .front.has-art .num,
+.card .front.has-art .name,
+.card .front.has-art .glyph{display:none}
+
+/* 卡牌下方的名稱條（有圖時才出現） */
+.card .front .caption{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:.7rem .6rem .8rem;
+  background:linear-gradient(180deg,transparent,rgba(6,11,22,.86) 58%);
+  font-size:.92rem;
+  color:var(--mist);
+  text-align:center;
+  pointer-events:none;
+}
+.card .front:not(.has-art) .caption{display:none}
+
+/* 自我介紹改成多段落（一個空行一段） */
+.bio .text p + p{margin-top:1rem}
